@@ -27,19 +27,52 @@ model Zap {
   trigger   Trigger?
   userId    Int
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  actions   Action[]
+  zapRuns   ZapRun[]
+  zapRunId  String?
 }
 
 model Trigger {
-  id        String            @id @default(uuid())
-  zapId     String            @unique
+  id        String           @id @default(uuid())
+  zapId     String           @unique
   triggerId String
-  type      AvailableTriggers @relation(fields: [triggerId], references: [id])
+  type      AvailableTrigger @relation(fields: [triggerId], references: [id])
 
   zap Zap @relation(fields: [zapId], references: [id])
 }
 
-model AvailableTriggers {
+model AvailableTrigger {
   id      String    @id @default(uuid())
   name    String
   Trigger Trigger[]
+}
+
+model Action {
+  id       String          @id @default(uuid())
+  zapId    String
+  zap      Zap             @relation(fields: [zapId], references: [id])
+  actionId String
+  metadata Json            @default("{}")
+  type     AvailableAction @relation(fields: [actionId], references: [id])
+}
+
+model AvailableAction {
+  id      String   @id @default(uuid())
+  name    String
+  image   String
+  actions Action[]
+}
+
+model ZapRun {
+  id           String        @id @default(uuid())
+  zapId        String
+  metadata     Json
+  zap          Zap           @relation(fields: [zapId], references: [id])
+  ZapRunOutBox ZapRunOutBox?
+}
+
+model ZapRunOutBox {
+  id       String @id @default(uuid())
+  zapRunId String @unique
+  zapRun   ZapRun @relation(fields: [zapRunId], references: [id])
 }
