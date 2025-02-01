@@ -8,12 +8,15 @@ app.use(express.json());
 
 app.post("/hooks/catch/:userId/:zapId",async (req,res) =>{
     const body = req.body;
+
     const { userId,zapId } = req.params;
+    console.log(zapId);
 
     await client.$transaction(async (tx) =>{
+
         const run = await tx.zapRun.create({
             data : {
-                zapId,
+                zapId :zapId,
                 metadata : body
 
             }
@@ -21,13 +24,14 @@ app.post("/hooks/catch/:userId/:zapId",async (req,res) =>{
 
         const runOutBox = await tx.zapRunOutBox.create({
             data : {
-                zapRunId  : run.zapId
+                zapRunId  : run.id
             }
         })
 
-        res.json({
-            status:"success",
-        })
+
+    })
+    res.json({
+        status:"Webhook success",
     })
 
 })
