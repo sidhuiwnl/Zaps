@@ -1,0 +1,11 @@
+import  { z } from  "zod"
+
+export  const signUpSchema = z.object({
+    username : z.string().email(),
+    password : z.string(),
+    name : z.string()
+})
+export  const signInSchema = z.object({
+    username : z.string().email(),
+    password : z.string(),
+})
