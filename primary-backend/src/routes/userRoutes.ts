@@ -1,6 +1,6 @@
 import {Router} from "express";
 import {authMiddleware} from "../middleware";
-import client from "../lib/db";
+import { client } from "../lib/db";
 const router = Router();
 import {signUpSchema,signInSchema} from "../types";
 import jwt from "jsonwebtoken"
@@ -15,6 +15,7 @@ router.post("/signup",async (req,res)=>{
            status:"error",
            message : "Error validating the details"
        })
+       return
    }
 
    const userExist = await client.user.findFirst({
@@ -28,13 +29,14 @@ router.post("/signup",async (req,res)=>{
             status : "Error",
             message : "User already exist"
         })
+        return
     }
 
     const createdUser = await client.user.create({
         data : {
-            name : parsedData.data?.username!,
-            password : parsedData.data?.password!,
-            email : parsedData.data?.username!,
+            name : parsedData.data?.name,
+            password : parsedData.data?.password,
+            email : parsedData.data?.username,
         }
 
     })
@@ -61,7 +63,8 @@ router.post("/signin",async (req,res)=>{
 
     const checkUser = await client.user.findFirst({
         where : {
-            email : parsedSignInSchema.data?.username
+            email : parsedSignInSchema.data?.username,
+            password : parsedSignInSchema.data?.password
         }
     })
 
@@ -70,6 +73,7 @@ router.post("/signin",async (req,res)=>{
             status:"error",
             message : "User doesn't already exist so signup"
         })
+        return
     }
     const token = jwt.sign({
         id : checkUser?.id
@@ -77,9 +81,10 @@ router.post("/signin",async (req,res)=>{
 
     res.status(200).json({
         status:"success",
-        message:"Successfully registered"
+        message: token
     })
 })
+
 
 
 router.get("/",authMiddleware,async (req,res)=>{

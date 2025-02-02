@@ -23,7 +23,7 @@ model User {
 
 model Zap {
   id        String   @id @default(uuid())
-  triggerId String   @unique
+  triggerId String
   trigger   Trigger?
   userId    Int
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
