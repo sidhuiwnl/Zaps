@@ -5,18 +5,18 @@ import BuiltWith from "@/components/BuiltWith.tsx";
 export default function LandingPage() {
 
     return(
-        <main className="h-screen mt-10 ">
+        <main className="h-screen mt-10 overflow-y-scroll">
             <header className="flex flex-row items-center p-5 justify-around ">
                 <h1 className="font-medium text-3xl  antialiased">zaps</h1>
                 <div className="flex flex-row items-center gap-10">
                     <NavLink to="/pricing">
-                        <span className="font-medium  text-base text-gray-700 tracking-widest antialiased">Pricing</span>
+                        <span className="font-medium  text-base text-neutral-700 tracking-widest antialiased">Pricing</span>
                     </NavLink>
                     <NavLink to="/about">
-                       <span className=" text-base font-medium text-gray-700 tracking-widest antialiased">About</span>
+                       <span className=" text-base font-medium text-neutral-700  tracking-widest antialiased">About</span>
                     </NavLink>
                     <NavLink to="/login">
-                       <span className="font-medium text-base text-gray-700 tracking-widest antialiased">Login</span>
+                       <span className="font-medium text-base text-neutral-700  tracking-widest antialiased">Login</span>
                     </NavLink>
                 </div>
                 <button
@@ -35,7 +35,7 @@ export default function LandingPage() {
 
                         url="zaps.com"
                         className="size-half"
-                        imageSrc="https://via.placeholder.com/1200x750"
+
                     />
             </section>
             <section className="flex flex-col items-center justify-center ">
