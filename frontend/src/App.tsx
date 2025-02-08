@@ -5,7 +5,7 @@ import SignupPage from "@/pages/SignUpPage.tsx";
 function App() {
 
   return (
-    <div className="overflow-x-hidden">
+    <div>
       <Routes>
         <Route path="/" element={<LandingPage/>} />
         <Route path="/login" element={<SignInPage/>} />

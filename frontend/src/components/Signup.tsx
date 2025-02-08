@@ -7,8 +7,11 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Icons } from "@/components/ui/icons"
 import {NavLink} from "react-router";
+import axios from "axios"
+import {useNavigate} from "react-router";
 
 export default function SignupForm() {
+    const navigate = useNavigate();
     const {
         register,
         handleSubmit,
@@ -17,10 +20,19 @@ export default function SignupForm() {
     const [isLoading, setIsLoading] = useState(false)
 
     const onSubmit = async (data: any) => {
-        setIsLoading(true)
 
-        console.log(data)
-        setIsLoading(false)
+        setIsLoading(true);
+
+        const response = await axios.post(`${import.meta.env.VITE_PRIMARY_BACKEND_URL}/api/v1/user/signup`,data)
+        if(response.status === 200) {
+            setIsLoading(false)
+           navigate("/login")
+            console.log(response.data.message)
+        }else{
+            setIsLoading(false)
+            throw Error(response.statusText)
+        }
+
     }
 
     return (
@@ -28,28 +40,30 @@ export default function SignupForm() {
             <CardContent className="pt-6">
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="name">Name</Label>
+                        <Label htmlFor="name">Username</Label>
                         <div className="relative">
-                            <Icons.user className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                            <Icons.mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+
                             <Input
-                                id="name"
-                                placeholder="John Doe"
+                                id="username"
+                            type="email"
+                                placeholder="you@example.com"
                                 className="pl-10"
-                                {...register("name", { required: "Name is required" })}
+                                {...register("username", { required: "Email is required" })}
                             />
                         </div>
                         {errors.name && <p className="text-destructive text-sm">{errors.name.message as string}</p>}
                     </div>
                     <div className="space-y-2">
-                        <Label htmlFor="email">Email</Label>
+                        <Label htmlFor="username">Name</Label>
                         <div className="relative">
-                            <Icons.mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                            <Icons.user className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                             <Input
-                                id="email"
-                                type="email"
-                                placeholder="you@example.com"
+                                id="name"
+                                type="text"
+                                placeholder="John Doe"
                                 className="pl-10"
-                                {...register("email", { required: "Email is required" })}
+                                {...register("name", { required: "Name is required" })}
                             />
                         </div>
                         {errors.email && <p className="text-destructive text-sm">{errors.email.message as string}</p>}

@@ -5,7 +5,7 @@ import BuiltWith from "@/components/BuiltWith.tsx";
 export default function LandingPage() {
 
     return(
-        <main className="h-screen mt-10 overflow-y-scroll">
+        <main className="h-screen mt-10">
             <header className="flex flex-row items-center p-5 justify-around ">
                 <h1 className="font-medium text-3xl  antialiased">zaps</h1>
                 <div className="flex flex-row items-center gap-10">
@@ -29,7 +29,7 @@ export default function LandingPage() {
             <section className="flex flex-col items-center justify-center py-20 gap-10">
 
                     <h1 className="text-8xl text-neutral-700">Automate without limits.</h1>
-                    <p className=" font-medium  text-2xl text-zinc-500">Turn chaos into smooth operations by automating workflows yourself</p>
+                    <p className=" font-sm  text-xl text-neutral-500">Turn chaos into smooth operations by automating workflows yourself</p>
                     <button className="bg-blue-600 text-white px-6 py-3  rounded-full font-medium tracking-wider">Dashboard</button>
                     <Safari
 

@@ -8,8 +8,11 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Icons } from "@/components/ui/icons"
 import {NavLink} from "react-router";
+import axios from "axios"
+import { useNavigate } from "react-router"
 
 export default function SigninForm() {
+    const navigate = useNavigate()
     const {
         register,
         handleSubmit,
@@ -19,9 +22,16 @@ export default function SigninForm() {
 
     const onSubmit = async (data: any) => {
         setIsLoading(true)
+        const response = await axios.post(`${import.meta.env.VITE_PRIMARY_BACKEND_URL}/api/v1/user/signin`,data)
 
-        console.log(data)
-        setIsLoading(false)
+        if(response.status === 200) {
+            localStorage.setItem("token", response.data.message)
+            setIsLoading(false)
+            navigate("/")
+        }else {
+            throw new Error("Something went wrong")
+        }
+
     }
 
     return (
@@ -30,15 +40,15 @@ export default function SigninForm() {
                 <CardContent className="pt-6">
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                         <div className="space-y-2">
-                            <Label htmlFor="email">Email</Label>
+                            <Label htmlFor="username">Username</Label>
                             <div className="relative">
                                 <Icons.mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                                 <Input
-                                    id="email"
+                                    id="username"
                                     type="email"
                                     placeholder="you@example.com"
                                     className="pl-10"
-                                    {...register("email", { required: "Email is required" })}
+                                    {...register("username", { required: "Email is required" })}
                                 />
                             </div>
                             {errors.email && <p className="text-destructive text-sm">{errors.email.message as string}</p>}
