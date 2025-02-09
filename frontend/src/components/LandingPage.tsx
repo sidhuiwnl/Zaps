@@ -2,6 +2,7 @@ import {NavLink} from "react-router";
 import {Safari} from "@/components/safari.tsx";
 import BuiltWith from "@/components/BuiltWith.tsx";
 
+
 export default function LandingPage() {
 
     return(
@@ -19,18 +20,24 @@ export default function LandingPage() {
                        <span className="font-medium text-base text-neutral-700  tracking-widest antialiased">Login</span>
                     </NavLink>
                 </div>
-                <button
-                    className="rounded-full border-2 px-4 py-1 border-blue-700  text-neutral-800 text-lg bg-gray-100"
+                <NavLink to="/dashboard">
+                    <button
+                        className="rounded-full border-2 px-4 py-1 border-blue-700  text-neutral-800 text-lg bg-gray-100"
 
-                >
-                    <span className="font-medium text-lg">Dashboard</span>
-                </button>
+                    >
+                        <span className="font-medium text-lg">Dashboard</span>
+                    </button>
+                </NavLink>
+
             </header>
             <section className="flex flex-col items-center justify-center py-20 gap-10">
 
                     <h1 className="text-8xl text-neutral-700">Automate without limits.</h1>
                     <p className=" font-sm  text-xl text-neutral-500">Turn chaos into smooth operations by automating workflows yourself</p>
+                <NavLink to="/dashboard">
                     <button className="bg-blue-600 text-white px-6 py-3  rounded-full font-medium tracking-wider">Dashboard</button>
+                </NavLink>
+
                     <Safari
 
                         url="zaps.com"
