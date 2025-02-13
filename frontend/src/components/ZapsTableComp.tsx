@@ -8,6 +8,7 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import {Zaps} from "@/types/Types.ts";
+import {useNavigate} from "react-router";
 
 
 type Props =  {
@@ -15,6 +16,7 @@ type Props =  {
 }
 
 export default function ZapsTableComp(props : Props) {
+    const navigate = useNavigate();
     console.log(props.zaps)
     const Zaps = props.zaps;
     return (
@@ -33,10 +35,12 @@ export default function ZapsTableComp(props : Props) {
 
                     {Zaps.map((zap) => (
                         <TableRow
+
                             key={zap.id}
-                            className="cursor-pointer hover:bg-gray-100"
+                            className="cursor-pointer hover:bg-[#F5ECD5] rounded-lg"
+                            onClick={() => navigate(`/edit-zaps/${zap.id}`)}
                         >
-                            <TableCell>untitled zap</TableCell>
+                            <TableCell>Untitled zap</TableCell>
                             <TableCell className="flex space-x-2">
                                 {zap.actions.map((action, index) => (
                                     <span key={index} className="block">

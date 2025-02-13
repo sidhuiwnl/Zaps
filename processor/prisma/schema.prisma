@@ -14,31 +14,36 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  name     String
-  email    String
-  password String
-  zaps     Zap[]
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  zaps      Zap[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Zap {
   id        String   @id @default(uuid())
-  triggerId String
+  triggerId String?
   trigger   Trigger?
   userId    Int
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   actions   Action[]
   zapRuns   ZapRun[]
+  isActive  Boolean  @default(true)
   zapRunId  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Trigger {
-  id        String           @id @default(uuid())
-  zapId     String           @unique
-  triggerId String
-  type      AvailableTrigger @relation(fields: [triggerId], references: [id])
+  id          String           @id @default(uuid())
+  zapId       String           @unique
+  triggerName String
+  type        AvailableTrigger @relation(fields: [triggerName], references: [id])
 
-  zap Zap @relation(fields: [zapId], references: [id])
+  zap Zap @relation(fields: [zapId], references: [id], onDelete: Cascade)
 }
 
 model AvailableTrigger {
@@ -51,9 +56,9 @@ model Action {
   id           String          @id @default(uuid())
   zapId        String
   zap          Zap             @relation(fields: [zapId], references: [id])
-  actionId     String
+  actionName   String
   metadata     Json            @default("{}")
-  type         AvailableAction @relation(fields: [actionId], references: [id])
+  type         AvailableAction @relation(fields: [actionName], references: [id])
   sortingOrder Int             @default(0)
 }
 
@@ -68,6 +73,7 @@ model ZapRun {
   id           String        @id @default(uuid())
   zapId        String
   metadata     Json
+  status       RunStatus     @default(PENDING)
   zap          Zap           @relation(fields: [zapId], references: [id])
   ZapRunOutBox ZapRunOutBox?
 }
@@ -76,4 +82,11 @@ model ZapRunOutBox {
   id       String @id @default(uuid())
   zapRunId String @unique
   zapRun   ZapRun @relation(fields: [zapRunId], references: [id])
+}
+
+enum RunStatus {
+  PENDING
+  FINISHED
+  RUNNING
+  FAILED
 }
