@@ -3,6 +3,7 @@ import "@xyflow/react/dist/style.css";
 import { useCallback } from "react";
 import { nanoid } from "nanoid";
 import { Trash2 } from "lucide-react";
+import { AppSelection } from "@/components/AppSelection.tsx";
 
 
 const CustomNode = ({
@@ -10,22 +11,21 @@ const CustomNode = ({
                                                                                                                                  data,
                                                                                                                                  onAddNode,
                                                                                                                                  onDeleteNode,
-                                                                                                                             }) => {
+                                                                                                                             } : {
+    id: string;
+    data: any;
+    onAddNode: (node: any) => void;
+    onDeleteNode: (node: any) => void;
+}) => {
 
 
     return (
-        <div className="border border-gray-600 rounded-lg bg-neutral-900 p-4 shadow-md w-64 flex flex-col items-center relative">
+        <div className="border border-gray-600 rounded-lg bg-neutral-800 p-4 shadow-md w-64 flex flex-col items-center relative">
 
-            <div className="absolute -top-2 left-3 bg-neutral-900 px-2 text-xs text-gray-400 font-semibold">{data.type}</div>
+            <div className="absolute -top-2 left-3 bg-neutral-800 px-2 text-xs text-gray-400 font-semibold">{data.type}</div>
             <p className="text-sm text-gray-300 font-semibold">{data.title}</p>
             <p className="text-xs text-gray-500">{data.description}</p>
-
-
-            <div className="w-full mt-3 border border-gray-700 p-2 rounded-md flex justify-between items-center">
-
-            </div>
-
-
+            <AppSelection/>
             <div className="absolute -right-5 top-1/2 transform -translate-y-1/2 flex flex-col gap-1">
                 <button
                     className="p-1 border border-gray-500 rounded-md text-gray-100 bg-gray-700 hover:bg-gray-600"
@@ -108,7 +108,7 @@ export default function ZapsEditor() {
     );
 
     return (
-        <div className="w-screen h-screen p-4 mx-auto bg-neutral-900">
+        <div className="w-screen h-screen p-4 mx-auto bg-neutral-800">
             <ReactFlowProvider>
                 <ReactFlow
                     nodes={nodes}
@@ -119,7 +119,7 @@ export default function ZapsEditor() {
                         custom: (props) => <CustomNode {...props} onAddNode={addNode} onDeleteNode={deleteNode} />,
                     }}
                 >
-                    <Background color="#ccc" variant={"dots"} />
+                    <Background className="bg-neutral-600" variant={"dots"} />
                 </ReactFlow>
             </ReactFlowProvider>
         </div>
