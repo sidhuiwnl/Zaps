@@ -2,14 +2,14 @@ import {Router} from "express";
 import {authMiddleware} from "../middleware";
 import {zapCreateSchema} from "../types";
 import {client} from "../lib/db";
-
+import uuid4 from "uuid4";
 
 const router = Router();
 
 
 router.post("/", authMiddleware, async (req, res) => {
     // @ts-ignore
-    const id: string = req.id;
+    const userid: string = req.id;
     const body = req.body;
     const parsedData = zapCreateSchema.safeParse(body);
 
@@ -17,18 +17,20 @@ router.post("/", authMiddleware, async (req, res) => {
          res.status(411).json({
             message: "Incorrect inputs"
         });
+         return
     }
 
     const zapId = await client.$transaction(async tx => {
         const zap = await client.zap.create({
             data: {
-                userId: parseInt(id),
+                id : parsedData.data.id,
+                userId: parseInt(userid),
                 triggerId: "",
                 actions: {
                     create: parsedData.data?.actions.map((x, index) => ({
-                        actionId: x.availableActionId,
+                        id : uuid4(),
+                        availableActionId : x.availableActionId,
                         sortingOrder: index,
-
                     }))
                 }
             }
@@ -36,7 +38,7 @@ router.post("/", authMiddleware, async (req, res) => {
 
         const trigger = await tx.trigger.create({
             data: {
-                triggerId: parsedData.data?.availableTriggerId!,
+                availableTriggerId: parsedData.data?.availableTriggerId!,
                 zapId: zap.id,
             }
         });

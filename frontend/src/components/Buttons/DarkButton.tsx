@@ -1,20 +1,24 @@
 import {Button} from "@/components/ui/button.tsx";
 import {PlusIcon} from "lucide-react";
 
-import  { v4 as uuid } from "uuid";
-import {useNavigate} from "react-router";
 
-export default function DarkButton() {
-    const navigate = useNavigate();
+
+
+export default function DarkButton({
+    name,
+    action
+                                   } : {
+    name: string;
+    action: () => void;
+}) {
+
     return (
         <div>
             <Button
-                onClick={() =>{
-                   navigate(`/editor/${uuid()}`);
-                }}
+                onClick={action}
                 className="flex flex-row items-center  bg-blue-800">
                 <PlusIcon />
-                <span>Create</span>
+                <span>{name}</span>
             </Button>
         </div>
     )

@@ -25,41 +25,41 @@ model User {
 
 model Zap {
   id        String   @id @default(uuid())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade) // zaps Id
   triggerId String?
   trigger   Trigger?
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   actions   Action[]
   zapRuns   ZapRun[]
-  isActive  Boolean  @default(true)
   zapRunId  String?
+  isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Trigger {
-  id          String           @id @default(uuid())
-  zapId       String           @unique
-  triggerName String
-  type        AvailableTrigger @relation(fields: [triggerName], references: [id])
-
-  zap Zap @relation(fields: [zapId], references: [id], onDelete: Cascade)
+  id                 String           @id @default(uuid())
+  zapId              String           @unique
+  availableTriggerId String
+  type               AvailableTrigger @relation(fields: [availableTriggerId], references: [id])
+  zap                Zap              @relation(fields: [zapId], references: [id], onDelete: Cascade)
 }
 
 model AvailableTrigger {
   id      String    @id @default(uuid())
   name    String
+  image   String
   Trigger Trigger[]
 }
 
 model Action {
-  id           String          @id @default(uuid())
-  zapId        String
-  zap          Zap             @relation(fields: [zapId], references: [id])
-  actionName   String
-  metadata     Json            @default("{}")
-  type         AvailableAction @relation(fields: [actionName], references: [id])
-  sortingOrder Int             @default(0)
+  id                String          @id @default(uuid())
+  zapId             String //this is the zaps id
+  zap               Zap             @relation(fields: [zapId], references: [id])
+  availableActionId String
+  metadata          Json            @default("{}")
+  type              AvailableAction @relation(fields: [availableActionId], references: [id])
+  sortingOrder      Int             @default(0)
 }
 
 model AvailableAction {
@@ -71,7 +71,7 @@ model AvailableAction {
 
 model ZapRun {
   id           String        @id @default(uuid())
-  zapId        String
+  zapId        String // the zaps Id
   metadata     Json
   status       RunStatus     @default(PENDING)
   zap          Zap           @relation(fields: [zapId], references: [id])

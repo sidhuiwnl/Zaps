@@ -1,4 +1,4 @@
-import { ReactFlow, Background, Handle, Position, useNodesState, useEdgesState, ReactFlowProvider, NodeProps } from "@xyflow/react";
+import { ReactFlow, Background, Handle, Position, useNodesState, useEdgesState, ReactFlowProvider } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { useCallback } from "react";
 import { nanoid } from "nanoid";
