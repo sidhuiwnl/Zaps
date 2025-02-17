@@ -11,11 +11,12 @@ router.post("/", authMiddleware, async (req, res) => {
     // @ts-ignore
     const userid: string = req.id;
     const body = req.body;
-    const parsedData = zapCreateSchema.safeParse(body);
 
+    const parsedData = zapCreateSchema.safeParse(body);
+    console.log("userId", userid);
     if (!parsedData.success) {
          res.status(411).json({
-            message: "Incorrect inputs"
+            message: parsedData.error
         });
          return
     }

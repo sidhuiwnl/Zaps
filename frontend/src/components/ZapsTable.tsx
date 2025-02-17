@@ -16,7 +16,7 @@ export default function ZapsTable() {
         setZaps(zaps.data.data)
 
     }
-    console.log(zaps)
+
     useEffect(() => {
          getAllZaps();
 

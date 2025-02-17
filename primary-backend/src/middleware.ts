@@ -4,10 +4,13 @@ import {JWT_PASSWORD} from "./config";
 
 export async function authMiddleware(req : Request,res : Response, next: NextFunction){
     const authHeader = req.headers.authorization;
+
     const token =  authHeader?.split(" ")[1];
 
     if(!token){
-        throw new Error("No Token provided && Unauthorized");
+        res.status(401).send("No token provided");
+        return;
+
     }
 
     try{
