@@ -7,7 +7,7 @@ export default function ZapsTable() {
     const [zaps,setZaps] = useState<Zaps[] | null>(null)
     async function getAllZaps(){
         const token = localStorage.getItem("token");
-        console.log(token);
+
         const zaps = await axios.get(`${import.meta.env.VITE_PRIMARY_BACKEND_URL}/api/v1/zap`,{
             headers : {
                 Authorization: `Bearer ${token}`

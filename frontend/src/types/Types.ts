@@ -29,4 +29,7 @@ export interface Zaps{
     zapRunId : string
     actions : Actions[];
     triggers : Trigger;
+    isActive: boolean;
+    createdAt : Date;
+    updatedAt : Date;
 }

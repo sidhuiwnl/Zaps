@@ -40,7 +40,7 @@ model Zap {
 model Trigger {
   id                 String           @id @default(uuid())
   zapId              String           @unique
-  availableTriggerId String
+  availableTriggerId String           @default("")
   type               AvailableTrigger @relation(fields: [availableTriggerId], references: [id])
   zap                Zap              @relation(fields: [zapId], references: [id], onDelete: Cascade)
 }
@@ -56,7 +56,7 @@ model Action {
   id                String          @id @default(uuid())
   zapId             String //this is the zaps id
   zap               Zap             @relation(fields: [zapId], references: [id])
-  availableActionId String
+  availableActionId String          @default("")
   metadata          Json            @default("{}")
   type              AvailableAction @relation(fields: [availableActionId], references: [id])
   sortingOrder      Int             @default(0)

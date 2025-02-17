@@ -49,8 +49,13 @@ export default function ZapsTableComp(props : Props) {
                                 ))}
                             </TableCell>
 
-                            <TableCell></TableCell>
-                            <TableCell>Active</TableCell>
+                            <TableCell> {new Date(zap.updatedAt).toLocaleDateString("en-GB", {
+                                day: "2-digit",
+                                month: "short",
+                                year: "numeric",
+                            })}</TableCell>
+
+                            <TableCell>{zap.isActive ? "Active" : "None"}</TableCell>
                             <TableCell>{zap.userId}</TableCell>
                         </TableRow>
                     ))}
