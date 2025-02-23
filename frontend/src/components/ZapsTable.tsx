@@ -3,6 +3,8 @@ import axios from "axios";
 import {Zaps} from "@/types/Types.ts";
 import ZapsTableComp from "@/components/ZapsTableComp.tsx";
 
+
+
 export default function ZapsTable() {
     const [zaps,setZaps] = useState<Zaps[] | null>(null)
     async function getAllZaps(){
@@ -14,7 +16,6 @@ export default function ZapsTable() {
             }
         })
         setZaps(zaps.data.data)
-
     }
 
     useEffect(() => {

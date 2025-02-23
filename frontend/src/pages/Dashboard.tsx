@@ -5,7 +5,8 @@ import DashboardMain from "@/components/DashboardMain.tsx";
 
 
 
-export default function Dashboard(){
+
+export default  function Dashboard(){
 
     return(
         <div className="flex h-screen w-screen overflow-hidden ">

@@ -14,7 +14,7 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   name      String
   email     String   @unique
   password  String
@@ -25,7 +25,7 @@ model User {
 
 model Zap {
   id        String   @id @default(uuid())
-  userId    Int
+  userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade) // zaps Id
   triggerId String?
   trigger   Trigger?
@@ -35,12 +35,14 @@ model Zap {
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([isActive, userId, createdAt, updatedAt])
 }
 
 model Trigger {
   id                 String           @id @default(uuid())
   zapId              String           @unique
-  availableTriggerId String
+  availableTriggerId String           @default("")
   type               AvailableTrigger @relation(fields: [availableTriggerId], references: [id])
   zap                Zap              @relation(fields: [zapId], references: [id], onDelete: Cascade)
 }
@@ -56,7 +58,7 @@ model Action {
   id                String          @id @default(uuid())
   zapId             String //this is the zaps id
   zap               Zap             @relation(fields: [zapId], references: [id])
-  availableActionId String
+  availableActionId String          @default("")
   metadata          Json            @default("{}")
   type              AvailableAction @relation(fields: [availableActionId], references: [id])
   sortingOrder      Int             @default(0)

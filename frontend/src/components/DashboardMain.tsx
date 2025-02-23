@@ -1,8 +1,7 @@
 import DarkButton from "@/components/Buttons/DarkButton.tsx";
 import ZapsTable from "@/components/ZapsTable.tsx";
 import  { v4 as uuid } from "uuid";
-
-import axios from "axios";
+import {createZap} from "../../server/queries.ts";
 import {useEffect, useState} from "react";
 
 
@@ -21,33 +20,13 @@ export default function DashboardMain() {
 
     console.log(token);
 
-    async function createZap(){
 
-        const response = await axios.post(`${import.meta.env.VITE_PRIMARY_BACKEND_URL}/api/v1/zap`,{
-
-
-                id : zapId,
-                availableTriggerId : "solana",
-                triggerMetaData : {},
-                actions : [{
-                    "availableActionId" : "solana",
-                    "actionMetaData" : {}
-                }]
-            }
-        ,{
-            headers: {
-                Authorization :`Bearer ${token}`,
-            },
-        })
-
-        console.log(response);
-    }
     return (
         <div className="p-4">
             <DarkButton
                 name = "Create"
                 action={async () =>{
-                    await createZap();
+                    await createZap({ zapId,token});
                 }}
 
             />

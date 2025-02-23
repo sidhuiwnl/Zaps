@@ -25,7 +25,7 @@ router.post("/", authMiddleware, async (req, res) => {
         const zap = await client.zap.create({
             data: {
                 id : parsedData.data.id,
-                userId: parseInt(userid),
+                userId: userid,
                 triggerId: "",
                 actions: {
                     create: parsedData.data?.actions.map((x, index) => ({
@@ -74,9 +74,11 @@ router.get("/",authMiddleware,async (req,res)=>{
 
     const zaps = await client.zap.findMany({
        where : {
-           userId : parseInt(id)
+           userId : id,
+
        },
         include : {
+
            actions : {
                include : {
                    type : true
@@ -86,7 +88,8 @@ router.get("/",authMiddleware,async (req,res)=>{
                include : {
                    type : true
                }
-            }
+            },
+            user : true
         }
     })
 
@@ -108,7 +111,7 @@ router.get("/:zapId",authMiddleware,async (req,res)=>{
 
     const zap  = await client.zap.findFirst({
         where: {
-            userId : parseInt(id),
+            userId : id,
             id : zapId
         },
         include : {

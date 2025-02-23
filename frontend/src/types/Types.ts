@@ -22,6 +22,15 @@ export interface Trigger{
     type: Type
 }
 
+export interface User{
+    id  : string
+    name :string
+    email : string
+    password  : string
+    createdAt : Date
+    updatedAt : Date
+}
+
 export interface Zaps{
     id : string
     triggerId : string
@@ -32,4 +41,5 @@ export interface Zaps{
     isActive: boolean;
     createdAt : Date;
     updatedAt : Date;
+    user  : User;
 }

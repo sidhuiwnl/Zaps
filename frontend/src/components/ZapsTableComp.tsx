@@ -56,7 +56,7 @@ export default function ZapsTableComp(props : Props) {
                             })}</TableCell>
 
                             <TableCell>{zap.isActive ? "Active" : "None"}</TableCell>
-                            <TableCell>{zap.userId}</TableCell>
+                            <TableCell>{zap.user.name}</TableCell>
                         </TableRow>
                     ))}
 

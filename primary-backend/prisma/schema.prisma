@@ -14,7 +14,7 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   name      String
   email     String   @unique
   password  String
@@ -25,7 +25,7 @@ model User {
 
 model Zap {
   id        String   @id @default(uuid())
-  userId    Int
+  userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade) // zaps Id
   triggerId String?
   trigger   Trigger?
@@ -35,6 +35,8 @@ model Zap {
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([isActive, userId, createdAt, updatedAt])
 }
 
 model Trigger {
